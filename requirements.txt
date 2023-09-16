@@ -1,0 +1,5 @@
+pyaudio
+wave
+pydub
+openai
+python-dotenv
