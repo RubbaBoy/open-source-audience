@@ -2,11 +2,17 @@ import openai
 import re
 
 joke_prompt = """
-I will give you a string that will either be a joke or not. If it is not,
-respond with "NOT A JOKE". If it is, only respond with a number 1-10 rating
-on how funny the joke is, 1 being not funny (i.e. overly complicated or mundane)
-and 10 being funny (dumb stuff is considered funny). The response should only be 0-10 or
-"NOT A JOKE". with no additional words or context The string is:
+I will receive a text string from a conversation. Your task is to
+determine whether it contains a joke or not. However, I would like
+you to lean towards interpreting more phrases as jokes, similar to
+how laugh tracks are liberally used in comedy shows. If you determine
+that it's not a joke, respond with "NOT A JOKE". If it is a joke,
+or could plausibly be interpreted as a joke, rate its humor on a scale
+of 1 to 10. A rating of 1 means the joke is not funny, and a rating
+of 10 means the joke is hilarious. Please prioritize potty humor and
+simple, "dumb" jokes as funnier when giving your rating. Your output
+should strictly be a single number between 1 and 10 or the phrase "NOT A JOKE",
+without any additional context or words. Here's the string you need to evaluate:
 
 %s
 """
