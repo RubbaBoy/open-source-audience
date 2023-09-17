@@ -9,25 +9,25 @@ def rating_responder(rating):
     if rating == None:
         pass
     if rating == 1:
-        play_audio("laughs_and_boos_and_cheers/1.wav")
+        play_audio("../laughs_and_boos_and_cheers/1.wav")
     if rating == 2:
-        play_audio("laughs_and_boos_and_cheers/2.wav")
+        play_audio("../laughs_and_boos_and_cheers/2.wav")
     if rating == 3:
-        play_audio("laughs_and_boos_and_cheers/3.wav")
+        play_audio("../laughs_and_boos_and_cheers/3.wav")
     if rating == 4:
-        play_audio("laughs_and_boos_and_cheers/4.wav")
+        play_audio("../laughs_and_boos_and_cheers/4.wav")
     if rating == 5:
-        play_audio("laughs_and_boos_and_cheers/5.wav")
+        play_audio("../laughs_and_boos_and_cheers/5.wav")
     if rating == 6:
-        play_audio("laughs_and_boos_and_cheers/6.wav")
+        play_audio("../laughs_and_boos_and_cheers/6.wav")
     if rating == 7:
-        play_audio("laughs_and_boos_and_cheers/7.wav")
+        play_audio("../laughs_and_boos_and_cheers/7.wav")
     if rating == 8:
-        play_audio("laughs_and_boos_and_cheers/8.wav")
+        play_audio("../laughs_and_boos_and_cheers/8.wav")
     if rating == 9:
-        play_audio("laughs_and_boos_and_cheers/9.wav")
+        play_audio("../laughs_and_boos_and_cheers/9.wav")
     if rating == 10:
-        play_audio("laughs_and_boos_and_cheers/10.wav")
+        play_audio("../laughs_and_boos_and_cheers/10.wav")
 
 
 def play_audio(wav_file_path):

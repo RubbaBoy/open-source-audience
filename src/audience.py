@@ -10,6 +10,7 @@ from pydub import AudioSegment
 from dotenv import load_dotenv
 import os
 
+from joke_logger import log_joke
 from joke_rater import joke_rater
 from rating_responder import rating_responder
 from speech_parser import parse_audio
@@ -30,7 +31,7 @@ cursor parking lot
 # give whisper output to chatgpt
 # play respective laughtrack (if applicable)
 
-base_path = "output"
+base_path = "../output"
 
 
 def create_file_name():
@@ -98,10 +99,9 @@ def execute_joke(mp3_name):
     print(mp3_name)
     text = parse_audio(mp3_name)
     if text != '':
-        print(text)
         rating = joke_rater(text)
-        print(rating)
         rating_responder(rating)
+        log_joke(text, rating)
     os.remove(mp3_name)
 
 
