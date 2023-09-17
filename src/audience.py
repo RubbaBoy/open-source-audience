@@ -6,6 +6,7 @@ import pyaudio
 import wave
 import audioop
 from pydub import AudioSegment
+from concurrent.futures import ThreadPoolExecutor
 
 from dotenv import load_dotenv
 import os
@@ -32,6 +33,7 @@ cursor parking lot
 # play respective laughtrack (if applicable)
 
 base_path = "../output"
+executor = ThreadPoolExecutor(max_workers=10)
 
 
 def create_file_name():
@@ -85,29 +87,35 @@ def start_listening():
             wav_file.setframerate(44100)
             wav_file.writeframes(b"".join(frames))
 
-        Thread(target=execute_joke, args=[wav_name]).start()
+        executor.submit(execute_joke, wav_name)
 
-        start_listening()
+    start_listening()
 
 
 def execute_joke(wav_name):
-    print(wav_name)
-    text = parse_audio(wav_name)
-    if text != '':
-        rating = joke_rater(text)
-        rating_responder(rating)
-        if rating is not None:
-            log_joke(text, rating)
-        else:
-            print(text)
-    os.remove(wav_name)
+    try:
+        print(wav_name)
+        text = parse_audio(wav_name)
+        if text != '':
+            rating = joke_rater(text)
+            rating_responder(rating)
+            if rating is not None:
+                log_joke(text, rating)
+            else:
+                print(text)
+        os.remove(wav_name)
+    except Exception as e:
+        pass
 
 
 def main():
     load_dotenv()
     openai.api_key = os.getenv("OPENAI_API_KEY")
     print(create_file_name())
-    start_listening()
+    try:
+        start_listening()
+    finally:
+        executor.shutdown()
 
 
 if __name__ == '__main__':
