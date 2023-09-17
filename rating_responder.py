@@ -31,7 +31,6 @@ def rating_responder(rating):
 def play_audio(wav_file_path):
     # Open the WAV file
     wf = wave.open(wav_file_path, 'rb')
-    print("AUDIO FRAMERATE: ", wf.getframerate())
 
 # Initialize PyAudio
     p = pyaudio.PyAudio()

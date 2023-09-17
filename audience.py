@@ -24,7 +24,6 @@ cursor parking lot
 
 """
 
-
 # listen to audio
 # save file to mp3
 # give it to whisper
@@ -39,7 +38,6 @@ def create_file_name():
 
 
 def start_listening():
-
     py_audio = pyaudio.PyAudio()
     stream = py_audio.open(format=pyaudio.paInt16,
                            channels=1,
@@ -52,6 +50,7 @@ def start_listening():
     silence_threshold = 500
     consecutive_silence = 0
     consecutive_silence_threshold = 50
+    any_audio = False
 
     print('Listening!')
 
@@ -62,11 +61,10 @@ def start_listening():
         # silence check
         rms = audioop.rms(data, 2)
 
-        print(rms)
-
         if rms < silence_threshold:
             consecutive_silence += 1
         else:
+            any_audio = True
             consecutive_silence = 0
 
         if consecutive_silence > consecutive_silence_threshold:
@@ -76,25 +74,28 @@ def start_listening():
     stream.close()
     py_audio.terminate()
 
-    file_name = create_file_name()
-    wav_name = f"{base_path}/{file_name}.wav"
-    mp3_name = f"{base_path}/{file_name}.mp3"
+    if any_audio:
+        file_name = create_file_name()
+        wav_name = f"{base_path}/{file_name}.wav"
+        mp3_name = f"{base_path}/{file_name}.mp3"
 
-    with wave.open(wav_name, "wb") as wav_file:
-        wav_file.setnchannels(1)
-        wav_file.setsampwidth(py_audio.get_sample_size(pyaudio.paInt16))
-        wav_file.setframerate(44100)
-        wav_file.writeframes(b"".join(frames))
+        with wave.open(wav_name, "wb") as wav_file:
+            wav_file.setnchannels(1)
+            wav_file.setsampwidth(py_audio.get_sample_size(pyaudio.paInt16))
+            wav_file.setframerate(44100)
+            wav_file.writeframes(b"".join(frames))
 
-    audio = AudioSegment.from_wav(wav_name)
-    audio.export(mp3_name, format="mp3")
+        audio = AudioSegment.from_wav(wav_name)
+        audio.export(mp3_name, format="mp3")
 
-    print(mp3_name)
-    text = parse_audio(mp3_name)
-    print(text)
-    rating = joke_rater(text)
-    print(rating)
-    rating_responder(rating)
+        print(mp3_name)
+        text = parse_audio(mp3_name)
+        os.remove(wav_name)
+        if text != '':
+            print(text)
+            rating = joke_rater(text)
+            print(rating)
+            rating_responder(rating)
 
     Thread(target=start_listening).run()
 
