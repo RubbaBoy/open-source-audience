@@ -78,7 +78,6 @@ def start_listening():
     if any_audio:
         file_name = create_file_name()
         wav_name = f"{base_path}/{file_name}.wav"
-        mp3_name = f"{base_path}/{file_name}.mp3"
 
         with wave.open(wav_name, "wb") as wav_file:
             wav_file.setnchannels(1)
@@ -86,11 +85,7 @@ def start_listening():
             wav_file.setframerate(44100)
             wav_file.writeframes(b"".join(frames))
 
-        audio = AudioSegment.from_wav(wav_name)
-        audio.export(mp3_name, format="mp3")
-
         Thread(target=execute_joke, args=[wav_name]).start()
-        os.remove(wav_name)
 
         start_listening()
 
