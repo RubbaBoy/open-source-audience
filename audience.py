@@ -74,8 +74,6 @@ def start_listening():
     stream.close()
     py_audio.terminate()
 
-    Thread(target=start_listening).start()
-
     if any_audio:
         file_name = create_file_name()
         wav_name = f"{base_path}/{file_name}.wav"
@@ -90,14 +88,21 @@ def start_listening():
         audio = AudioSegment.from_wav(wav_name)
         audio.export(mp3_name, format="mp3")
 
-        print(mp3_name)
-        text = parse_audio(mp3_name)
+        Thread(target=execute_joke, args=[wav_name]).start()
         os.remove(wav_name)
-        if text != '':
-            print(text)
-            rating = joke_rater(text)
-            print(rating)
-            rating_responder(rating)
+
+        start_listening()
+
+
+def execute_joke(mp3_name):
+    print(mp3_name)
+    text = parse_audio(mp3_name)
+    if text != '':
+        print(text)
+        rating = joke_rater(text)
+        print(rating)
+        rating_responder(rating)
+    os.remove(mp3_name)
 
 
 def main():
