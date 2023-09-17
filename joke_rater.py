@@ -21,7 +21,7 @@ pattern = r'\b\d+\b'
 
 def joke_rater(joke):
     chat = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo",
+        model="gpt-3.5-turbo-16k",
         messages=[{"role": "user", "content": joke_prompt % joke}]
     )
 
