@@ -44,7 +44,7 @@ def start_listening():
     py_audio = pyaudio.PyAudio()
     stream = py_audio.open(format=pyaudio.paInt16,
                            channels=1,
-                           rate=44100,
+                           rate=32000,
                            input=True,
                            input_device_index=2,
                            frames_per_buffer=1024)
@@ -84,7 +84,7 @@ def start_listening():
         with wave.open(wav_name, "wb") as wav_file:
             wav_file.setnchannels(1)
             wav_file.setsampwidth(py_audio.get_sample_size(pyaudio.paInt16))
-            wav_file.setframerate(44100)
+            wav_file.setframerate(32000)
             wav_file.writeframes(b"".join(frames))
 
         executor.submit(execute_joke, wav_name)
@@ -98,11 +98,11 @@ def execute_joke(wav_name):
         text = parse_audio(wav_name)
         if text != '':
             rating = joke_rater(text)
-            rating_responder(rating)
             if rating is not None:
                 log_joke(text, rating)
             else:
                 print(text)
+            rating_responder(rating)
         os.remove(wav_name)
     except Exception as e:
         pass
