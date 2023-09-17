@@ -74,6 +74,8 @@ def start_listening():
     stream.close()
     py_audio.terminate()
 
+    Thread(target=start_listening).start()
+
     if any_audio:
         file_name = create_file_name()
         wav_name = f"{base_path}/{file_name}.wav"
@@ -96,8 +98,6 @@ def start_listening():
             rating = joke_rater(text)
             print(rating)
             rating_responder(rating)
-
-    Thread(target=start_listening).run()
 
 
 def main():

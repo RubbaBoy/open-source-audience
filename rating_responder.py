@@ -1,3 +1,5 @@
+from threading import Thread
+
 import openai
 import pyaudio
 import wave
