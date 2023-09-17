@@ -90,14 +90,14 @@ def start_listening():
         start_listening()
 
 
-def execute_joke(mp3_name):
-    print(mp3_name)
-    text = parse_audio(mp3_name)
+def execute_joke(wav_name):
+    print(wav_name)
+    text = parse_audio(wav_name)
     if text != '':
         rating = joke_rater(text)
         rating_responder(rating)
         log_joke(text, rating)
-    os.remove(mp3_name)
+    os.remove(wav_name)
 
 
 def main():
