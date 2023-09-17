@@ -49,7 +49,7 @@ def start_listening():
     frames = []
     silence_threshold = 500
     consecutive_silence = 0
-    consecutive_silence_threshold = 40
+    consecutive_silence_threshold = 60
     any_audio = False
 
     print('Listening!')
@@ -92,16 +92,12 @@ def start_listening():
         text = parse_audio(mp3_name)
         os.remove(wav_name)
         if text != '':
-            Thread(target=execute_joke, args=[text]).run()
+            print(text)
+            rating = joke_rater(text)
+            print(rating)
+            rating_responder(rating)
 
     Thread(target=start_listening).run()
-
-
-def execute_joke(text):
-    print(text)
-    rating = joke_rater(text)
-    print(rating)
-    rating_responder(rating)
 
 
 def main():
