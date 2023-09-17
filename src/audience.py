@@ -96,7 +96,10 @@ def execute_joke(wav_name):
     if text != '':
         rating = joke_rater(text)
         rating_responder(rating)
-        log_joke(text, rating)
+        if rating is not None:
+            log_joke(text, rating)
+        else:
+            print(text)
     os.remove(wav_name)
 
 
