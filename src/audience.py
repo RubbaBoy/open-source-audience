@@ -52,7 +52,7 @@ def start_listening():
     frames = []
     silence_threshold = 500
     consecutive_silence = 0
-    consecutive_silence_threshold = 60
+    consecutive_silence_threshold = 40
     any_audio = False
 
     print('Listening!')
@@ -105,6 +105,7 @@ def execute_joke(wav_name):
             rating_responder(rating)
         os.remove(wav_name)
     except Exception as e:
+        print(e)
         pass
 
 
