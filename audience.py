@@ -31,9 +31,7 @@ cursor parking lot
 # give whisper output to chatgpt
 # play respective laughtrack (if applicable)
 
-load_dotenv()
-
-base_path = "E:/open-source-audience/output"
+base_path = "output"
 
 
 def create_file_name():
@@ -41,16 +39,19 @@ def create_file_name():
 
 
 def start_listening():
+
     py_audio = pyaudio.PyAudio()
     stream = py_audio.open(format=pyaudio.paInt16,
                            channels=1,
                            rate=44100,
                            input=True,
+                           input_device_index=2,
                            frames_per_buffer=1024)
 
     frames = []
     silence_threshold = 500
     consecutive_silence = 0
+    consecutive_silence_threshold = 50
 
     print('Listening!')
 
@@ -61,12 +62,14 @@ def start_listening():
         # silence check
         rms = audioop.rms(data, 2)
 
+        print(rms)
+
         if rms < silence_threshold:
             consecutive_silence += 1
         else:
             consecutive_silence = 0
 
-        if consecutive_silence > 20:
+        if consecutive_silence > consecutive_silence_threshold:
             break
 
     stream.stop_stream()
@@ -97,8 +100,10 @@ def start_listening():
 
 
 def main():
+    load_dotenv()
+    openai.api_key = os.getenv("OPENAI_API_KEY")
     print(create_file_name())
-    # start_listening()
+    start_listening()
 
 
 if __name__ == '__main__':

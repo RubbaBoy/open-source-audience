@@ -1,7 +1,6 @@
 import openai
 import re
 
-api_key = ""
 joke_prompt = """
 I will give you a string that will either be a joke or not. If it is not,
 respond with "NOT A JOKE". If it is, only respond with a number 1-10 rating
